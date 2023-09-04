@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTypedDispatch, useTypedSelector } from '../redux/hooks/reduxHooks';
+import { fetchProducts } from '../redux/productsSlice';
+import Products from '../components/Products';
 
 const ProductsPage = () => {
-  return <div></div>;
+  const products = useTypedSelector(state => state.list);
+
+  const dispatch = useTypedDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  return (
+    <div>
+      <Products products={products} />
+    </div>
+  );
 };
 
 export default ProductsPage;
