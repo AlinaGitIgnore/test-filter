@@ -1,25 +1,30 @@
 export type Product = {
   id: number;
   title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
   author?: string;
-  createdAt: number;
+  createdAt?: number;
+  rating: number;
+  description?: string;
+  price?: number;
+  discountPercentage?: number;
+  stock?: number;
+  brand?: string;
+  category?: string;
+  thumbnail?: string;
+  images?: string[];
 };
 
 export type NewProduct = {
-  id: number;
   title: string;
   author: string;
   createdAt: number;
   rating: number;
+};
+
+export type ResponseNewProduct = {
+  id: number;
+  rating: number;
+  title: string;
 };
 
 export type ProductsState = {

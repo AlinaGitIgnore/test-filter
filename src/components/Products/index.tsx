@@ -1,12 +1,32 @@
-import React from 'react';
 import { Product } from '../../redux/types';
+import { useMemo } from 'react';
 import styled from './index.module.scss';
 
 interface IProps {
   products: Product[];
+  query: string;
 }
 
-const Products = ({ products }: IProps) => {
+const Products = ({ products, query }: IProps) => {
+  const filteredProducts = useMemo(() => {
+    if (query.length) {
+      const normalizeFilter = query.toLowerCase();
+
+      const filteredByCategories = products.filter(
+        product =>
+          product.category &&
+          product.category.toLowerCase().includes(normalizeFilter),
+      );
+
+      if (!filteredByCategories.length) {
+        const filteredProductsByTitle = products.filter(product => {
+          return product.title.toLowerCase().includes(normalizeFilter);
+        });
+        return filteredProductsByTitle;
+      } else return filteredByCategories;
+    } else return products;
+  }, [products, query]);
+
   return (
     <div className={styled.productsWrapper}>
       {' '}
@@ -25,7 +45,7 @@ const Products = ({ products }: IProps) => {
         </thead>
 
         <tbody className={styled.productsTableBody}>
-          {products.map(product => (
+          {filteredProducts.map(product => (
             <tr className={styled.productItem} key={product.id}>
               <td>{product.id}</td>
               <td>{product.title}</td>
@@ -33,7 +53,7 @@ const Products = ({ products }: IProps) => {
               <td>${product.price}</td>
               <td>
                 <img
-                  src={product.images[0]}
+                  src={product.images ? product.images[0] : ''}
                   alt={product.title}
                   className={styled.productImage}
                 />
