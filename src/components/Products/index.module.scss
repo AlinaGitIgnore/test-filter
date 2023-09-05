@@ -48,6 +48,27 @@
       font-size: 12px;
       line-height: 1.5;
       color: #667085;
+
+      &:hover,
+      &:focus {
+        .actions {
+          & svg {
+            fill: #667085;
+          }
+        }
+      }
+
+      .actions {
+        margin-top: 5px;
+
+        & svg {
+          fill: transparent;
+          width: 14px;
+          height: 14px;
+          margin-left: 5px;
+          cursor: pointer;
+        }
+      }
     }
   }
 
