@@ -11,14 +11,14 @@ export type Product = {
   thumbnail: string;
   images: string[];
   author?: string;
-  year: number;
+  createdAt: number;
 };
 
 export type NewProduct = {
   id: number;
   title: string;
   author: string;
-  year: number;
+  createdAt: number;
   rating: number;
 };
 

@@ -5,7 +5,7 @@ const instance = axios.create({
 });
 
 export const fetchProducts = async () => {
-  const res = await instance.get('products');
+  const res = await instance.get('products?limit=0');
   return res;
 };
 
