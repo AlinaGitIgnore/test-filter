@@ -18,10 +18,16 @@ const ProductsPage = () => {
   const filteredProducts = useCallback(() => {
     const normalizeFilter = query.toLowerCase();
 
-    const filteredProducts = products.filter(product => {
-      return product.title.toLowerCase().includes(normalizeFilter);
-    });
-    return filteredProducts as Product[];
+    const filteredByCategories = products.filter(product =>
+      product.category.toLowerCase().includes(normalizeFilter),
+    );
+
+    if (filteredByCategories.length === 0) {
+      const filteredProductsByTitle = products.filter(product => {
+        return product.title.toLowerCase().includes(normalizeFilter);
+      });
+      return filteredProductsByTitle as Product[];
+    } else return filteredByCategories as Product[];
   }, [products, query]);
 
   return (

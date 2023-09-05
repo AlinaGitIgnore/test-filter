@@ -6,6 +6,15 @@ const instance = axios.create({
 
 export const fetchProducts = async () => {
   const res = await instance.get('products?limit=0');
+  const categories: string[] = [];
+
+  res.data.products.map((product: { category: string }) => {
+    if (categories.includes(product.category)) return;
+    else {
+      categories.push(product.category);
+    }
+  });
+  console.log(categories);
   return res;
 };
 
