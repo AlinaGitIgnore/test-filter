@@ -1,4 +1,4 @@
-@import "../../scss/variables.scss";
+@import '../../scss/variables.scss';
 
 .header {
   position: fixed;
@@ -38,7 +38,7 @@
       flex-direction: column;
     }
     .link {
-      color: $navColor;
+      color: $accentColor;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -57,7 +57,7 @@
 
     .activeLink {
       @extend .link;
-      color: $navColorActive;
+      color: $accentColorActive;
 
       & > * {
         fill: none;

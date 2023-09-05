@@ -1,3 +1,5 @@
+import styled from './index.module.scss';
+
 interface IProps {
   value: string;
   setValue: (v: string) => void;
@@ -10,8 +12,9 @@ const Search = ({ value, setValue }: IProps) => {
   };
 
   return (
-    <div>
+    <div className={styled.searchWrapper}>
       <input
+        className={styled.inputSearch}
         value={value}
         onChange={onChange}
         type="text"
