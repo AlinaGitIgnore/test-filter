@@ -15,9 +15,9 @@ const ProductsPage = () => {
   }, [dispatch, products]);
 
   return (
-    <div>
+    <>
       <Products products={products} />
-    </div>
+    </>
   );
 };
 

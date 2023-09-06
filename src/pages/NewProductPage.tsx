@@ -1,7 +1,11 @@
-import React from 'react';
+import NewProductForm from '../components/NewProductForm';
 
 const NewProductPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <NewProductForm />
+    </>
+  );
 };
 
 export default NewProductPage;

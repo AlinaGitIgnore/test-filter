@@ -37,6 +37,18 @@ export const addNewProduct = createAsyncThunk<
   },
 );
 
+export const deleteProduct = createAsyncThunk<
+  Product,
+  number,
+  { rejectValue: string }
+>('products/deleteProduct', async function (id, { rejectWithValue }) {
+  const { data } = await apiService.deleteProduct(id);
+  if (!data) {
+    return rejectWithValue('Server Error!');
+  }
+  return data as Product;
+});
+
 function convertProductWithIdToProduct(
   newProduct: ResponseNewProduct,
 ): Product {
@@ -93,6 +105,22 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(addNewProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.error as Error).message;
+      })
+      .addCase(deleteProduct.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        const newList = state.list.filter(
+          product => product.id !== action.payload.id,
+        );
+        state.loading = false;
+        state.list = newList;
+        state.error = null;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = (action.error as Error).message;
       });

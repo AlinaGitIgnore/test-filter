@@ -2,12 +2,13 @@ import { Product } from '../../redux/types';
 import { useEffect, useState, useCallback } from 'react';
 import { ReactComponent as SortSvg } from '../../assets/svg/sort-amount-asc.svg';
 import { ReactComponent as FilterSvg } from '../../assets/svg/filter.svg';
+
 import FilterModal from '../../components/FilterModal';
-
-import styled from './index.module.scss';
-
 import Search from '../Search';
 import { tableHeaders } from '../../utils/tableHeaders';
+
+import styled from './index.module.scss';
+import ProductItem from '../ProductItem';
 
 interface IProps {
   products: Product[];
@@ -146,22 +147,7 @@ const Products = ({ products }: IProps) => {
 
           <tbody className={styled.productsTableBody}>
             {resultProducts.map(product => (
-              <tr className={styled.productItem} key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.title}</td>
-                <td>{product.description}</td>
-                <td>${product.price}</td>
-                <td>
-                  <img
-                    src={product.images ? product.images[0] : ''}
-                    alt={product.title}
-                    className={styled.productImage}
-                  />
-                </td>
-                <td>{product.rating}</td>
-                <td>{product.stock}</td>
-                <td>{product.category}</td>
-              </tr>
+              <ProductItem product={product} key={product.id} />
             ))}
           </tbody>
         </table>
