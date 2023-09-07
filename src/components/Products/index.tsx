@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { ProductsProps } from './index.props';
 //utils
 import { useEffect, useState, useCallback } from 'react';
@@ -140,20 +142,20 @@ const Products = ({ products }: ProductsProps) => {
             <thead className={styled.tableHeader}>
               <tr>
                 {TABLE_HEADERS.map(header => (
-                  <>
+                  <React.Fragment key={header.label}>
                     {!isMobile ||
                     (isMobile &&
                       !['Description', 'Rating', 'Stock', 'Image'].includes(
                         header.label,
                       )) ? (
-                      <th key={header.label}>
+                      <th>
                         <span>{header.label}</span>
                         <div className={styled.actions}>
                           <SortSvg onClick={() => handleSort(header.label)} />
                         </div>
                       </th>
                     ) : null}
-                  </>
+                  </React.Fragment>
                 ))}
               </tr>
             </thead>
