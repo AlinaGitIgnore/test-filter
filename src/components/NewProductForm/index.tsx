@@ -15,11 +15,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 //styles
 import styled from './index.module.scss';
+import { Loading } from '../Loading';
 
 const NewProductForm = () => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const products = useTypedSelector(state => state.list);
+  const isLoading = useTypedSelector(state => state.loading);
 
   useEffect(() => {
     if (!products.length) {
@@ -41,78 +43,82 @@ const NewProductForm = () => {
 
   return (
     <div className={styled.createWrap}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={values => handleCreate(values)}
-      >
-        {({ errors, touched }) => (
-          <Form>
-            <div className={styled.formWrap}>
-              <label htmlFor="title">title</label>
-              {errors.title || touched.title ? (
-                <div className={styled.error}>{errors.title}</div>
-              ) : null}
-              <Field
-                className={styled.input}
-                type="text"
-                name="title"
-                id="title"
-                placeholder="Title of the product"
-              />
-            </div>
-            <div className={styled.formWrap}>
-              <label htmlFor="author">author</label>
-              {errors.author && touched.author ? (
-                <div className={styled.error}>{errors.author}</div>
-              ) : null}
+      {!isLoading ? (
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={values => handleCreate(values)}
+        >
+          {({ errors, touched }) => (
+            <Form>
+              <div className={styled.formWrap}>
+                <label htmlFor="title">title</label>
+                {errors.title || touched.title ? (
+                  <div className={styled.error}>{errors.title}</div>
+                ) : null}
+                <Field
+                  className={styled.input}
+                  type="text"
+                  name="title"
+                  id="title"
+                  placeholder="Title of the product"
+                />
+              </div>
+              <div className={styled.formWrap}>
+                <label htmlFor="author">author</label>
+                {errors.author && touched.author ? (
+                  <div className={styled.error}>{errors.author}</div>
+                ) : null}
 
-              <Field
-                className={styled.input}
-                type="text"
-                name="author"
-                id="author"
-                placeholder="Author of the product"
-              />
-            </div>
+                <Field
+                  className={styled.input}
+                  type="text"
+                  name="author"
+                  id="author"
+                  placeholder="Author of the product"
+                />
+              </div>
 
-            <div className={styled.formWrap}>
-              <label htmlFor="createdAt">createdAt</label>
-              {errors.createdAt && touched.createdAt ? (
-                <div className={styled.error}>{errors.createdAt}</div>
-              ) : null}
+              <div className={styled.formWrap}>
+                <label htmlFor="createdAt">createdAt</label>
+                {errors.createdAt && touched.createdAt ? (
+                  <div className={styled.error}>{errors.createdAt}</div>
+                ) : null}
 
-              <Field
-                className={styled.input}
-                type="number"
-                name="createdAt"
-                id="createdAt"
-                placeholder="Year of the publication"
-              />
-            </div>
+                <Field
+                  className={styled.input}
+                  type="number"
+                  name="createdAt"
+                  id="createdAt"
+                  placeholder="Year of the publication"
+                />
+              </div>
 
-            <div className={styled.formWrap}>
-              <label htmlFor="rating">rating</label>
-              {errors.rating && touched.rating ? (
-                <div className={styled.error}>{errors.rating}</div>
-              ) : null}
+              <div className={styled.formWrap}>
+                <label htmlFor="rating">rating</label>
+                {errors.rating && touched.rating ? (
+                  <div className={styled.error}>{errors.rating}</div>
+                ) : null}
 
-              <Field
-                className={styled.input}
-                type="number"
-                name="rating"
-                id="rating"
-                placeholder="Rating of the product"
-              />
-            </div>
+                <Field
+                  className={styled.input}
+                  type="number"
+                  name="rating"
+                  id="rating"
+                  placeholder="Rating of the product"
+                />
+              </div>
 
-            <button type="submit" className={styled.buttonSubmit}>
-              <span> Create</span>
-              <CirclePlusSvg />
-            </button>
-          </Form>
-        )}
-      </Formik>
+              <button type="submit" className={styled.buttonSubmit}>
+                <span> Create</span>
+                <CirclePlusSvg />
+              </button>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

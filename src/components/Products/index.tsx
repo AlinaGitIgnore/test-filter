@@ -13,8 +13,11 @@ import type { Product } from '../../types';
 //styles
 import styled from './index.module.scss';
 import { ProductsProps } from './index.props';
+import { useTypedSelector } from '../../redux/hooks/reduxHooks';
+import { Loading } from '../Loading';
 
 const Products = ({ products }: ProductsProps) => {
+  const isLoading = useTypedSelector(state => state.loading);
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ascending, setAscending] = useState(true);
@@ -125,28 +128,32 @@ const Products = ({ products }: ProductsProps) => {
         <FilterSvg />
         Filtering
       </button>
-      <div className={styled.productsWrapper}>
-        <table className={styled.productTable}>
-          <thead className={styled.tableHeader}>
-            <tr>
-              {TABLE_HEADERS.map(header => (
-                <th key={header.label}>
-                  <span>{header.label}</span>
-                  <div className={styled.actions}>
-                    <SortSvg onClick={() => handleSort(header.label)} />
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
+      {!isLoading ? (
+        <div className={styled.productsWrapper}>
+          <table className={styled.productTable}>
+            <thead className={styled.tableHeader}>
+              <tr>
+                {TABLE_HEADERS.map(header => (
+                  <th key={header.label}>
+                    <span>{header.label}</span>
+                    <div className={styled.actions}>
+                      <SortSvg onClick={() => handleSort(header.label)} />
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
 
-          <tbody className={styled.productsTableBody}>
-            {resultProducts.map(product => (
-              <ProductItem product={product} key={product.id} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+            <tbody className={styled.productsTableBody}>
+              {resultProducts.map(product => (
+                <ProductItem product={product} key={product.id} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };
