@@ -7,6 +7,17 @@
   /* outline: 1px solid red; */
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  margin-bottom: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #799179;
+  border-radius: 2px;
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', 'Arial';

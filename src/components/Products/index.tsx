@@ -1,7 +1,12 @@
+import { ProductsProps } from './index.props';
+//utils
 import { useEffect, useState, useCallback } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import { useTypedSelector } from '../../redux/hooks/reduxHooks';
 //constants
 import { TABLE_HEADERS } from '../../constants';
 //components
+import { Loading } from '../Loading';
 import ProductItem from '../ProductItem';
 import FilterModal from '../../components/FilterModal';
 import Search from '../Search';
@@ -12,9 +17,6 @@ import type { SelectedValues } from '../../types';
 import type { Product } from '../../types';
 //styles
 import styled from './index.module.scss';
-import { ProductsProps } from './index.props';
-import { useTypedSelector } from '../../redux/hooks/reduxHooks';
-import { Loading } from '../Loading';
 
 const Products = ({ products }: ProductsProps) => {
   const isLoading = useTypedSelector(state => state.loading);
@@ -107,6 +109,10 @@ const Products = ({ products }: ProductsProps) => {
     }
   }, [applyFilters, applySearch, query.length]);
 
+  const isMobile = useMediaQuery({
+    query: `(max-width: 720px)`,
+  });
+
   return (
     <>
       {isModalOpen && (
@@ -134,12 +140,20 @@ const Products = ({ products }: ProductsProps) => {
             <thead className={styled.tableHeader}>
               <tr>
                 {TABLE_HEADERS.map(header => (
-                  <th key={header.label}>
-                    <span>{header.label}</span>
-                    <div className={styled.actions}>
-                      <SortSvg onClick={() => handleSort(header.label)} />
-                    </div>
-                  </th>
+                  <>
+                    {!isMobile ||
+                    (isMobile &&
+                      !['Description', 'Rating', 'Stock', 'Image'].includes(
+                        header.label,
+                      )) ? (
+                      <th key={header.label}>
+                        <span>{header.label}</span>
+                        <div className={styled.actions}>
+                          <SortSvg onClick={() => handleSort(header.label)} />
+                        </div>
+                      </th>
+                    ) : null}
+                  </>
                 ))}
               </tr>
             </thead>

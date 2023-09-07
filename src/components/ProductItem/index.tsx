@@ -6,6 +6,7 @@ import { ReactComponent as DeleteSvg } from '../../assets/svg/bin.svg';
 //hooks
 import { useTypedDispatch } from '../../redux/hooks/reduxHooks';
 //utils
+import { useMediaQuery } from 'react-responsive';
 import { deleteProduct } from '../../redux/productsSlice';
 // assets
 import defaultImage from '../../assets/img/defaultImage.jpg';
@@ -26,6 +27,10 @@ const ProductItem = ({ product }: ProductItemProps) => {
       : defaultImage;
   }, [product]);
 
+  const isMobile = useMediaQuery({
+    query: `(max-width: 720px)`,
+  });
+
   return (
     <>
       <tr
@@ -41,17 +46,21 @@ const ProductItem = ({ product }: ProductItemProps) => {
           {product.id}
         </td>
         <td>{product.title}</td>
-        <td>{product.description}</td>
+
+        {!isMobile ? <td>{product.description}</td> : null}
+
         <td>${product.price}</td>
-        <td>
-          <img
-            src={imageSrc}
-            alt={product.title}
-            className={styled.productImage}
-          />
-        </td>
-        <td>{product.rating}</td>
-        <td>{product.stock}</td>
+        {!isMobile ? (
+          <td>
+            <img
+              src={imageSrc}
+              alt={product.title}
+              className={styled.productImage}
+            />
+          </td>
+        ) : null}
+        {!isMobile ? <td>{product.rating}</td> : null}
+        {!isMobile ? <td>{product.stock}</td> : null}
         <td>{product.category}</td>
       </tr>
     </>
