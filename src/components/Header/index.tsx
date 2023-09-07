@@ -1,13 +1,14 @@
 /// <reference types="vite-plugin-svgr/client" />
-
+//utils
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import styled from './index.module.scss';
-
+//components
 import { ReactComponent as DashboardSvg } from '../../assets/svg/dashboard.svg';
 import { ReactComponent as CreateSvg } from '../../assets/svg/create.svg';
+//styles
+import styled from './index.module.scss';
 
-const Header: React.FC = () => {
+const Header = () => {
   const location = useLocation();
 
   return (
@@ -47,4 +48,4 @@ const Header: React.FC = () => {
   );
 };
 
-export { Header };
+export default Header;

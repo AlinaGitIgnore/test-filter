@@ -1,6 +1,5 @@
-import { Product } from '../redux/types';
+import { Product } from '../types';
 
-// Функция для получения уникальных значений по заданному полю
 export function getUniqueFieldValues<T>(
   products: Product[],
   field: keyof Product,
@@ -21,7 +20,6 @@ export function getUniqueFieldValues<T>(
     if (typeof a === 'string' && typeof b === 'string') {
       return a.localeCompare(b);
     }
-    // Добавьте другие типы данных, если необходимо
     return 0;
   });
 

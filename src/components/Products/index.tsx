@@ -1,28 +1,23 @@
-import { Product } from '../../redux/types';
 import { useEffect, useState, useCallback } from 'react';
-import { ReactComponent as SortSvg } from '../../assets/svg/sort-amount-asc.svg';
-import { ReactComponent as FilterSvg } from '../../assets/svg/filter.svg';
-
+//constants
+import { TABLE_HEADERS } from '../../constants';
+//components
+import ProductItem from '../ProductItem';
 import FilterModal from '../../components/FilterModal';
 import Search from '../Search';
-import { tableHeaders } from '../../utils/tableHeaders';
-
+import { ReactComponent as SortSvg } from '../../assets/svg/sort-amount-asc.svg';
+import { ReactComponent as FilterSvg } from '../../assets/svg/filter.svg';
+//types
+import type { SelectedValues } from '../../types';
+import type { Product } from '../../types';
+//styles
 import styled from './index.module.scss';
-import ProductItem from '../ProductItem';
+import { ProductsProps } from './index.props';
 
-interface IProps {
-  products: Product[];
-}
-
-export type SelectedValues = {
-  [key: string]: (string | number)[];
-};
-
-const Products = ({ products }: IProps) => {
+const Products = ({ products }: ProductsProps) => {
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ascending, setAccending] = useState(true);
-
+  const [ascending, setAscending] = useState(true);
   const [resultProducts, setResultProducts] = useState<Product[]>([]);
   const [selectedValues, setSelectedValues] = useState<SelectedValues>({
     id: [],
@@ -97,7 +92,7 @@ const Products = ({ products }: IProps) => {
   };
 
   const handleSort = (label: string) => {
-    setAccending(!ascending);
+    setAscending(!ascending);
     applySort(label.toLowerCase() as keyof Product, !ascending);
   };
 
@@ -134,7 +129,7 @@ const Products = ({ products }: IProps) => {
         <table className={styled.productTable}>
           <thead className={styled.tableHeader}>
             <tr>
-              {tableHeaders.map(header => (
+              {TABLE_HEADERS.map(header => (
                 <th key={header.label}>
                   <span>{header.label}</span>
                   <div className={styled.actions}>

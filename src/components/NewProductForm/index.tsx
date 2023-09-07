@@ -1,15 +1,20 @@
+//types
+import type { NewProduct } from '../../types';
+//componetns
 import { Field, Form, Formik } from 'formik';
-import { useEffect } from 'react';
-import { NewProduct } from '../../redux/types';
 import { ReactComponent as CirclePlusSvg } from '../../assets/svg/circlePlus.svg';
-import styled from './index.module.scss';
+//utils
+import { addNewProduct, fetchProducts } from '../../redux/productsSlice';
 import { validationSchema } from '../../utils/validationShema';
+//hooks
+import { useEffect } from 'react';
 import {
   useTypedDispatch,
   useTypedSelector,
 } from '../../redux/hooks/reduxHooks';
-import { addNewProduct, fetchProducts } from '../../redux/productsSlice';
 import { useNavigate } from 'react-router-dom';
+//styles
+import styled from './index.module.scss';
 
 const NewProductForm = () => {
   const navigate = useNavigate();
@@ -30,10 +35,7 @@ const NewProductForm = () => {
   };
 
   const handleCreate = (values: NewProduct) => {
-    console.log(values);
-
     dispatch(addNewProduct(values));
-
     navigate('/products');
   };
 
@@ -50,31 +52,27 @@ const NewProductForm = () => {
               <label htmlFor="title">title</label>
               {errors.title || touched.title ? (
                 <div className={styled.error}>{errors.title}</div>
-              ) : (
-                <></>
-              )}
+              ) : null}
               <Field
                 className={styled.input}
                 type="text"
                 name="title"
                 id="title"
-                placeholder={'Title of the product'}
+                placeholder="Title of the product"
               />
             </div>
             <div className={styled.formWrap}>
               <label htmlFor="author">author</label>
               {errors.author && touched.author ? (
                 <div className={styled.error}>{errors.author}</div>
-              ) : (
-                <></>
-              )}
+              ) : null}
 
               <Field
                 className={styled.input}
                 type="text"
                 name="author"
                 id="author"
-                placeholder={'Author of the product'}
+                placeholder="Author of the product"
               />
             </div>
 
@@ -82,16 +80,14 @@ const NewProductForm = () => {
               <label htmlFor="createdAt">createdAt</label>
               {errors.createdAt && touched.createdAt ? (
                 <div className={styled.error}>{errors.createdAt}</div>
-              ) : (
-                <></>
-              )}
+              ) : null}
 
               <Field
                 className={styled.input}
                 type="number"
                 name="createdAt"
                 id="createdAt"
-                placeholder={'Year of the publication'}
+                placeholder="Year of the publication"
               />
             </div>
 
@@ -99,16 +95,14 @@ const NewProductForm = () => {
               <label htmlFor="rating">rating</label>
               {errors.rating && touched.rating ? (
                 <div className={styled.error}>{errors.rating}</div>
-              ) : (
-                <></>
-              )}
+              ) : null}
 
               <Field
                 className={styled.input}
                 type="number"
                 name="rating"
                 id="rating"
-                placeholder={'Rating of the product'}
+                placeholder="Rating of the product"
               />
             </div>
 

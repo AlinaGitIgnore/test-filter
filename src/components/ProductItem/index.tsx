@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import { Product } from '../../redux/types';
+import { useState, useMemo } from 'react';
+//types
+import type { ProductItemProps } from './index.props';
+//components
 import { ReactComponent as DeleteSvg } from '../../assets/svg/bin.svg';
-import defaultUmage from '../../assets/img/defaultImage.jpg';
-import styled from './index.module.scss';
+//hooks
 import { useTypedDispatch } from '../../redux/hooks/reduxHooks';
+//utils
 import { deleteProduct } from '../../redux/productsSlice';
+// assets
+import defaultImage from '../../assets/img/defaultImage.jpg';
+//styles
+import styled from './index.module.scss';
 
-interface IProps {
-  product: Product;
-}
-
-const ProductItem = ({ product }: IProps) => {
+const ProductItem = ({ product }: ProductItemProps) => {
   const [showDelete, setShowDelete] = useState(false);
   const dispatch = useTypedDispatch();
 
   const handleDelete = () => {
     dispatch(deleteProduct(product.id));
   };
+
+  const imageSrc = useMemo(() => {
+    return product.images && product.images[0] !== ''
+      ? product.images[0]
+      : defaultImage;
+  }, [product]);
 
   return (
     <>
@@ -27,9 +35,9 @@ const ProductItem = ({ product }: IProps) => {
         onMouseLeave={() => setShowDelete(false)}
       >
         <td className={styled.id}>
-          {showDelete && (
+          {showDelete ? (
             <DeleteSvg className={styled.deleteButton} onClick={handleDelete} />
-          )}
+          ) : null}
           {product.id}
         </td>
         <td>{product.title}</td>
@@ -37,11 +45,7 @@ const ProductItem = ({ product }: IProps) => {
         <td>${product.price}</td>
         <td>
           <img
-            src={
-              product.images && product.images[0] !== ''
-                ? product.images[0]
-                : defaultUmage
-            }
+            src={imageSrc}
             alt={product.title}
             className={styled.productImage}
           />

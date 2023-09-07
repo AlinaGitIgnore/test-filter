@@ -1,57 +1,33 @@
-import React, { Dispatch, useState } from 'react';
-import { ReactComponent as FilterSvg } from '../../assets/svg/filter.svg';
-import { Product } from '../../redux/types';
-import styled from './index.module.scss';
+import { useCallback, useState } from 'react';
+//types
+import type { Product } from '../../types';
+import type { FilterModalProps } from './index.props';
+//utils
+import cn from 'classnames';
 import { getUniqueFieldValues } from '../../utils/getUniqueFieldValues';
-import { filterTabsData } from '../../utils/filtertabsData';
-import { SelectedValues } from '../Products';
+import { FILTERED_TABS } from '../../constants';
 
-interface IProps {
-  closeModal: () => void;
-  isOpen: boolean;
-  products: Product[];
-  applyFilters: () => void;
-  setSelectedValues: Dispatch<React.SetStateAction<SelectedValues>>;
-  selectedValues: SelectedValues;
-}
+import { ReactComponent as FilterSvg } from '../../assets/svg/filter.svg';
+//styles
+import styled from './index.module.scss';
 
 const FilterModal = ({
+  applyFilters,
   closeModal,
   isOpen,
   products,
-  applyFilters,
-  setSelectedValues,
   selectedValues,
-}: IProps) => {
+  setSelectedValues,
+}: FilterModalProps) => {
   const [activeSection, setActiveSection] = useState('');
 
-  const handleClick = () => {
+  const handleFilter = () => {
     applyFilters();
     closeModal();
   };
-  const toggleSelection = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    value: string | number,
-    section: string,
-  ) => {
-    event.stopPropagation();
-    setSelectedValues(prevState => {
-      const selectedValues = { ...prevState };
-      const selectedArray = selectedValues[section];
-      const index = selectedArray.indexOf(value);
-
-      if (index > -1) {
-        selectedArray.splice(index, 1);
-      } else {
-        selectedArray.push(value);
-      }
-
-      return selectedValues;
-    });
-  };
 
   // Заполняем данные для вкладок из массива
-  filterTabsData.forEach(tabData => {
+  FILTERED_TABS.forEach(tabData => {
     if (tabData.section === 'description') {
       tabData.values = ['with description', 'without description'];
     } else if (tabData.section === 'images') {
@@ -64,11 +40,30 @@ const FilterModal = ({
     }
   });
 
-  const toggleAccordion = (section: string) => {
+  const toggleAccordion = (section: string) =>
     setActiveSection(activeSection === section ? '' : section);
-  };
 
-  const renderTabChekbox = (tabData: (typeof filterTabsData)[0]) => {
+  const toggleSelection = useCallback(
+    (value: string | number, section: string) => {
+      setSelectedValues(prevState => {
+        const selectedValues = { ...prevState };
+        const selectedArray = selectedValues[section];
+        const index = selectedArray.indexOf(value);
+
+        if (index > -1) {
+          selectedArray.splice(index, 1);
+        } else {
+          selectedArray.push(value);
+        }
+
+        return selectedValues;
+      });
+    },
+    [],
+  );
+
+  // renderTabCheckbox
+  const renderTabChekbox = (tabData: (typeof FILTERED_TABS)[0]) => {
     return (
       <div className={styled.filterTabContent}>
         {tabData.values.map(item => (
@@ -77,7 +72,7 @@ const FilterModal = ({
               type="checkbox"
               value={item}
               checked={selectedValues[tabData.section].includes(item)}
-              onChange={event => toggleSelection(event, item, tabData.section)}
+              onChange={() => toggleSelection(item, tabData.section)}
             />
             {item}
           </label>
@@ -87,21 +82,27 @@ const FilterModal = ({
   };
 
   return (
-    <div className={`${styled.filterModal} ${isOpen ? styled.open : ''}`}>
+    <div
+      className={cn(styled.filterModal, {
+        [styled.open]: isOpen,
+      })}
+    >
       <div className={styled.filterModalOverlay} onClick={closeModal} />
       <div className={styled.filterModalContent}>
         <div className={styled.filterTabs}>
-          {filterTabsData.map(tabData => (
+          {FILTERED_TABS.map(tabData => (
             <div className={styled.filterTabWrapper} key={tabData.section}>
               <div
-                className={`${styled.filterTab} ${
-                  activeSection === tabData.section ? styled.active : ''
-                }`}
+                className={cn(styled.filterTab, {
+                  [styled.active]: activeSection === tabData.section,
+                })}
                 onClick={() => toggleAccordion(tabData.section)}
               >
                 {tabData.label}
               </div>
-              {activeSection === tabData.section && renderTabChekbox(tabData)}
+              {activeSection === tabData.section
+                ? renderTabChekbox(tabData)
+                : null}
             </div>
           ))}
         </div>
@@ -109,7 +110,7 @@ const FilterModal = ({
         <button
           type="button"
           className={styled.buttonFiltering}
-          onClick={handleClick}
+          onClick={handleFilter}
         >
           <FilterSvg />
           Apply

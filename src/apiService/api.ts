@@ -1,25 +1,23 @@
+//utils
 import axios from 'axios';
-import { NewProduct } from '../redux/types';
+
+//types
+import { NewProduct } from '../types';
+
+const BASE_URL = 'https://dummyjson.com/';
 
 const instance = axios.create({
-  baseURL: 'https://dummyjson.com/',
+  baseURL: BASE_URL,
 });
 
 export const fetchProducts = async () => {
-  const res = await instance.get('https://dummyjson.com/products?limit=0');
-
-  return res;
+  return await instance.get('products?limit=0');
 };
 
 export const addNewProduct = async (newProductData: NewProduct) => {
-  const res = await axios.post(
-    'https://dummyjson.com/products/add',
-    newProductData,
-  );
-  return res;
+  return await instance.post('products/add', newProductData);
 };
 
 export const deleteProduct = async (id: number) => {
-  const res = await axios.delete(`https://dummyjson.com/products/${id}`);
-  return res;
+  return await instance.delete(`https://dummyjson.com/products/${id}`);
 };

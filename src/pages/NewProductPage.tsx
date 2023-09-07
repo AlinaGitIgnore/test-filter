@@ -1,11 +1,6 @@
+// components
 import NewProductForm from '../components/NewProductForm';
 
-const NewProductPage = () => {
-  return (
-    <>
-      <NewProductForm />
-    </>
-  );
-};
+const NewProductPage = () => <NewProductForm />;
 
 export default NewProductPage;

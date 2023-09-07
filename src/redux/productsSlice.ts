@@ -1,11 +1,16 @@
+// utils
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+//services
 import * as apiService from '../apiService/api';
-import {
+
+//types
+import type {
   NewProduct,
   Product,
   ProductsState,
   ResponseNewProduct,
-} from './types';
+} from '../types';
 
 export const fetchProducts = createAsyncThunk<
   Product[],

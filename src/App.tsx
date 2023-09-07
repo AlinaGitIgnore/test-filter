@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router';
+//components
 import Layout from './components/Layout';
+import Header from './components/Header';
+//pages
 import ProductsPage from './pages/ProductsPage';
-import { Header } from './components/Header';
 import NewProductPage from './pages/NewProductPage';
 
 import styled from './App.module.scss';

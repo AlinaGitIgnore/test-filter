@@ -1,11 +1,9 @@
+//types
+import type { SearchProps } from './index.props';
+//styles
 import styled from './index.module.scss';
 
-interface IProps {
-  value: string;
-  setValue: (v: string) => void;
-}
-
-const Search = ({ value, setValue }: IProps) => {
+const Search = ({ value, setValue }: SearchProps) => {
   const onChange = (e: { target: { value: string } }) => {
     const newValue = e.target.value;
     setValue(newValue);

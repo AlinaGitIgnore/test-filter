@@ -32,3 +32,7 @@ export type ProductsState = {
   loading: boolean;
   error: string | null;
 };
+
+export type SelectedValues = {
+  [key: string]: (string | number)[];
+};

@@ -2,13 +2,13 @@
 
 .productItem {
   height: 52px;
-  border-bottom: 1px solid #e4e7ec;
+  border-bottom: 1px solid $borderColor;
   &:first-child {
-    border-top: 1px solid #e4e7ec;
+    border-top: 1px solid $borderColor;
   }
   &:hover,
   &:focus {
-    background: #f9fafb;
+    background: $primary50;
     cursor: pointer;
   }
 
@@ -24,7 +24,7 @@
       height: 14px;
       margin-left: 5px;
       cursor: pointer;
-      fill: rgb(160, 63, 63);
+      fill: $warningColor;
       margin-right: 15px;
     }
   }
